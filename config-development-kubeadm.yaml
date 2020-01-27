@@ -1,0 +1,28 @@
+apiVersion: gcm.vmware.com/v1alpha1
+kind: ManagedCluster
+metadata:
+  name: ${CLUSTER_NAME}
+  namespace: ${NAMESPACE}
+spec:
+  distribution:
+    version: {PACIFIC_VM_IMAGE_VERSION}
+  settings:
+    network:
+      cni:
+        name: calico
+      pods:
+        cidrBlocks:
+        - ${CLUSTER_CIDR} # CIDR block used by Calico
+      serviceDomain: ${SERVICE_DOMAIN}
+      services:
+        cidrBlocks:
+        - ${SERVICE_CIDR} # CIDR block used by Calico
+  topology:
+    controlPlane:
+      class: ${PACIFIC_CONTROLPLANE_VM_CLASS}
+      count: ${CONTROLPLANE_MACHINE_COUNT}
+      storageClass: ${PACIFIC_CONTROLPLANE_STORAGE_CLASS}
+    workers:
+      class: ${PACIFIC_WORKERS_VM_CLASS}
+      count: ${WORKER_MACHINE_COUNT}
+      storageClass: ${PACIFIC_WORKERS_STORAGE_CLASS}
